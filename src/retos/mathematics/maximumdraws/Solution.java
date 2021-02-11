@@ -7,7 +7,7 @@ import java.util.*;
 import java.util.regex.*;
 
 /*https://www.hackerrank.com/challenges/maximum-draws/problem
- *Task: create the maximumDraws method for calculate the minimum number of 
+ *TASK: create the maximumDraws method for calculate the minimum number of 
  *socks removed in a drawer with n pairs for obtain a matching pair */
 
 public class Solution {

@@ -7,7 +7,7 @@ import java.util.*;
 import java.util.regex.*;
 
 /*https://www.hackerrank.com/challenges/handshake/problem
- * At the annual meeting of Board of Directors of Acme Inc. If everyone 
+ * TASK: At the annual meeting of Board of Directors of Acme Inc. If everyone 
  * attending shakes hands exactly one time with every other attendee, how 
  * many handshakes are there?
  */

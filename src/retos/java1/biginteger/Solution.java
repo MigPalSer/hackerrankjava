@@ -5,8 +5,10 @@ import java.util.*;
 
 
 /*https://www.hackerrank.com/challenges/java-biginteger/problem
-INPUT: 2 lineas con números A y B (máximo 200 dígitos)
-OUTPUT: la primera linea debe contener A+B, la segunda AxB
+*INPUT: 2 lineas con números A y B (máximo 200 dígitos)
+*2 lines with numbers A and B
+*OUTPUT: la primera linea debe contener A+B, la segunda AxB
+*first line A+B; second line AxB
 */
 
 public class Solution {

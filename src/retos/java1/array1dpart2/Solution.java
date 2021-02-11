@@ -9,7 +9,7 @@ import java.util.*;
  *integers describing the respective values of n and leap The second line 
  *contains space-separated binary integers (i.e., zeroes and ones) describing 
  *the respective values of each game.
- * OUTPUT: Return YES or NO if the game can be solved (see the rules at page)
+ *OUTPUT: Return YES or NO if the game can be solved (see the rules at page)
  * */
 
 public class Solution {

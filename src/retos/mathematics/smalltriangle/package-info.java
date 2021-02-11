@@ -1,0 +1,1 @@
+package retos.mathematics.smalltriangle;
