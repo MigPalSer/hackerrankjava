@@ -7,46 +7,50 @@ import java.util.*;
  *number of unique integers among all the possible contiguous subarrays of size M.
  *Note: Time limit is 3 second for this problem. */
 
-/*Working, but fail the time limit for the last 3 cases*/
+/* Deprecated version of the solution
+ * Working, but fail the time limit for the last 3 cases*/
 
-public class test {
+public class OldTest {
 
 	// I know.The name "test" for the class is a bad practice, but the challenge
 	// provide that name.
 
 	public static void main(String[] args) {
 		Scanner in = new Scanner(System.in);
-		Deque<Integer> deque = new ArrayDeque<Integer>();
-		Set<Integer> differentNumbers = new HashSet<>();
+		Deque deque = new ArrayDeque<Integer>();
 		int n = in.nextInt();
 		int m = in.nextInt();
 		int maximumuniques = 1;
+		int lastuniques = 1;
 
+		int num0 = in.nextInt();
+		deque.add((Integer) num0);
 
 		for (int i = 0; i < m - 1; i++) {
 			Integer num = in.nextInt();
 
-			deque.add(num);
-			differentNumbers.add(num);
-		}
-		
-		maximumuniques=differentNumbers.size();
+			if (!deque.contains(num)) {
+				lastuniques++;
+				maximumuniques++;
+			}
 
-		for (int i = 0; i < 1 + n - m ; i++) {
+			deque.add(num);
+		}
+
+		for (int i = 0; i < n - m; i++) {
 			if (maximumuniques == m) {
 				break;
 			}
 			Integer num = in.nextInt();
-			
+			Integer pop = (Integer) deque.removeFirst();
+			if (!deque.contains(pop)) {
+				lastuniques--;
+			}
+			if (!deque.contains(num)) {
+				lastuniques++;
+			}
 			deque.add(num);
-			differentNumbers.add(num);
-			
-			maximumuniques = differentNumbers.size() > maximumuniques ? differentNumbers.size() : maximumuniques;
-
-			 Integer outnumber = deque.remove();
-             if (!deque.contains(outnumber))
-                 differentNumbers.remove(outnumber);
-			
+			maximumuniques = lastuniques > maximumuniques ? lastuniques : maximumuniques;
 
 		}
 
