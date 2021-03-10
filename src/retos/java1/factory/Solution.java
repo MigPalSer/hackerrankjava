@@ -1,53 +1,84 @@
 package retos.java1.factory;
 
 import java.util.*;
+import java.security.*;
 
-/*https://www.hackerrank.com/challenges/java-interface/problem
- *TASK: You are given an interface AdvancedArithmetic which contains a method 
- *signature int divisor_sum(int n). You need to write a class called MyCalculator 
- *which implements the interface. divisorSum function just takes an integer as 
- *input and return the sum of all its divisors. 
+/*https://www.hackerrank.com/challenges/java-factory/problem
+ *TASK: Create the FoodFactory class for create instances of the
+ *food classes.
  * */
 
-interface AdvancedArithmetic {
-	int divisor_sum(int n);
+interface Food {
+	public String getType();
 }
 
-class MyCalculator implements AdvancedArithmetic {
+class Pizza implements Food {
+	public String getType() {
+		return "Someone ordered a Fast Food!";
+	}
+}
 
-	@Override
-	public int divisor_sum(int n) {
-		int divisorsum = 0;
-		for (int i = 1; i <= n; i++) {
-			if (n % i == 0) {
-				divisorsum += i;
+class Cake implements Food {
+
+	public String getType() {
+		return "Someone ordered a Dessert!";
+	}
+}
+
+class FoodFactory {
+	public Food getFood(String order) {
+
+		switch (order) {
+		case "pizza":
+			return new Pizza();
+		case "cake":
+			return new Cake();
+		default:
+			return null;
+		}
+	}
+
+}
+
+public class Solution {
+
+	public static void main(String args[]) {
+		Do_Not_Terminate.forbidExit();
+
+		try {
+
+			Scanner sc = new Scanner(System.in);
+			// creating the factory
+			FoodFactory foodFactory = new FoodFactory();
+
+			// factory instantiates an object
+			Food food = foodFactory.getFood(sc.nextLine());
+
+			System.out.println("The factory returned " + food.getClass());
+			System.out.println(food.getType());
+		} catch (Do_Not_Terminate.ExitTrappedException e) {
+			System.out.println("Unsuccessful Termination!!");
+		}
+	}
+
+}
+
+class Do_Not_Terminate {
+
+	public static class ExitTrappedException extends SecurityException {
+
+		private static final long serialVersionUID = 1L;
+	}
+
+	public static void forbidExit() {
+		final SecurityManager securityManager = new SecurityManager() {
+			@Override
+			public void checkPermission(Permission permission) {
+				if (permission.getName().contains("exitVM")) {
+					throw new ExitTrappedException();
+				}
 			}
-		}
-		return divisorsum;
-	}
-
-}
-
-class Solution {
-	public static void main(String[] args) {
-		MyCalculator my_calculator = new MyCalculator();
-		System.out.print("I implemented: ");
-		ImplementedInterfaceNames(my_calculator);
-		Scanner sc = new Scanner(System.in);
-		int n = sc.nextInt();
-		System.out.print(my_calculator.divisor_sum(n) + "\n");
-		sc.close();
-	}
-
-	/*
-	 * ImplementedInterfaceNames method takes an object and prints the name of the
-	 * interfaces it implemented
-	 */
-	static void ImplementedInterfaceNames(Object o) {
-		Class[] theInterfaces = o.getClass().getInterfaces();
-		for (int i = 0; i < theInterfaces.length; i++) {
-			String interfaceName = theInterfaces[i].getName();
-			System.out.println(interfaceName);
-		}
+		};
+		System.setSecurityManager(securityManager);
 	}
 }
