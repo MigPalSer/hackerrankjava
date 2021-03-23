@@ -22,31 +22,29 @@ public class test {
 		int m = in.nextInt();
 		int maximumuniques = 1;
 
-
 		for (int i = 0; i < m - 1; i++) {
 			Integer num = in.nextInt();
 
 			deque.add(num);
 			differentNumbers.add(num);
 		}
-		
-		maximumuniques=differentNumbers.size();
 
-		for (int i = 0; i < 1 + n - m ; i++) {
+		maximumuniques = differentNumbers.size();
+
+		for (int i = 0; i < 1 + n - m; i++) {
 			if (maximumuniques == m) {
 				break;
 			}
 			Integer num = in.nextInt();
-			
+
 			deque.add(num);
 			differentNumbers.add(num);
-			
+
 			maximumuniques = differentNumbers.size() > maximumuniques ? differentNumbers.size() : maximumuniques;
 
-			 Integer outnumber = deque.remove();
-             if (!deque.contains(outnumber))
-                 differentNumbers.remove(outnumber);
-			
+			Integer outnumber = deque.remove();
+			if (!deque.contains(outnumber))
+				differentNumbers.remove(outnumber);
 
 		}
 

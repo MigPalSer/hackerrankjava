@@ -1,4 +1,5 @@
 package retos.java1.annotations;
+
 import java.lang.annotation.*;
 import java.lang.reflect.*;
 import java.util.*;
@@ -7,18 +8,19 @@ import java.util.*;
 @Retention(RetentionPolicy.RUNTIME)
 @interface FamilyBudget {
 	String userRole() default "GUEST";
-	int budgetLimit() default 0; //Modificable line 1
+
+	int budgetLimit() default 0; // Modificable line 1
 }
 
 class FamilyMember {
-	@FamilyBudget(userRole = "SENIOR", budgetLimit = 100)		//Modificable line 2
+	@FamilyBudget(userRole = "SENIOR", budgetLimit = 100) // Modificable line 2
 	public void seniorMember(int budget, int moneySpend) {
 		System.out.println("Senior Member");
 		System.out.println("Spend: " + moneySpend);
 		System.out.println("Budget Left: " + (budget - moneySpend));
 	}
 
-	@FamilyBudget(userRole = "JUNIOR", budgetLimit = 50)		//Modificable line 3
+	@FamilyBudget(userRole = "JUNIOR", budgetLimit = 50) // Modificable line 3
 	public void juniorUser(int budget, int moneySpend) {
 		System.out.println("Junior Member");
 		System.out.println("Spend: " + moneySpend);
@@ -38,15 +40,13 @@ public class Solution {
 				Method[] methods = annotatedClass.getMethods();
 				for (Method method : methods) {
 					if (method.isAnnotationPresent(FamilyBudget.class)) {
-						FamilyBudget family = method
-								.getAnnotation(FamilyBudget.class);
+						FamilyBudget family = method.getAnnotation(FamilyBudget.class);
 						String userRole = family.userRole();
-						int budgetLimit = family.budgetLimit();  //Modificable line 4
+						int budgetLimit = family.budgetLimit(); // Modificable line 4
 						if (userRole.equals(role)) {
-							if(spend<=budgetLimit){			//modificable line 5
-								method.invoke(FamilyMember.class.newInstance(),
-										budgetLimit, spend);
-							}else{
+							if (spend <= budgetLimit) { // modificable line 5
+								method.invoke(FamilyMember.class.newInstance(), budgetLimit, spend);
+							} else {
 								System.out.println("Budget Limit Over");
 							}
 						}
@@ -59,5 +59,3 @@ public class Solution {
 		}
 	}
 }
-
-

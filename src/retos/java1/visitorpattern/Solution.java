@@ -161,76 +161,72 @@ public class Solution {
 
 	public static Tree solve() {
 		Scanner scan = new Scanner(System.in);
+		//Scan number of nodes of the tree
 		int nodes=scan.nextInt();
 		
+		//Create an array to store the value of every node
 		int values[]=new int[nodes];
 		for (int i = 0; i < nodes; i++) {
 			values[i]=scan.nextInt();
 		}
-		
+
+		//Create an array to store the color of every node
 		Color colors[]=new Color[nodes];
 		for (int i = 0; i < nodes; i++) {
 			colors[i]=scan.nextInt()==0?Color.RED:Color.GREEN;
 		}
 		
-		
+		//Create an empty array to store the nodes
 		Tree tree_elements[]=new Tree[nodes];
 		
+		//Instance the root node, with its value, color and depth 0
 		tree_elements[0]=new TreeNode(values[0],colors[0], 0);
 		
+		//Create an structure to store the relation parent-child of the nodes
 		HashMap<Integer, ArrayList<Integer>> relations=new HashMap<Integer, ArrayList<Integer>>(nodes);
-		
 		for (int i = 0; i < nodes; i++) {
 			relations.put(i, new ArrayList<Integer>());
 		}
 		
-		boolean elements_instanced[]=new boolean[nodes];
-		for (int i = 0; i < nodes; i++) {
-			elements_instanced[i]=false;
-		}
-		
+		//Fill with relations, so the ArrayList of the parent node contain the index of all the child nodes
+		//since the challenge structure give the nodes with a 1-start, we change with a -1 to adjust with our arrays
 		for (int i = 0; i < nodes-1; i++) {
 			Integer parent=scan.nextInt()-1;
 			Integer child=scan.nextInt()-1;
 			relations.get(parent).add(child);
 		}
 		
+		//¿?
+		boolean elements_instanced[]=new boolean[nodes];
 		for (int i = 0; i < nodes; i++) {
-			int newdepth=tree_elements[i].getDepth()+1;
-			for (Integer j : relations.get(i)) {
-				if(relations.get(j).size()==0) {
-					tree_elements[j]=new TreeLeaf(values[i], colors[i], newdepth);
-					}else {
-						tree_elements[j]=new TreeNode(values[i], colors[i], newdepth);
+			elements_instanced[i]=false;
+		}
+		elements_instanced[0]=true;
+		boolean elements_not_instanced=true;
+		
+		while (elements_not_instanced) {
+			//Create the instances of the tree, if it doesn't have any child it will be a leaf, if it have it will be a normal node
+			for (int i = 0; i < nodes; i++) {
+				if(elements_instanced[i]){int newdepth = tree_elements[i].getDepth() + 1;
+				for (Integer j : relations.get(i)) {
+					if (relations.get(j).size() == 0 && elements_instanced[j]==false) {
+						tree_elements[j] = new TreeLeaf(values[j], colors[j], newdepth);
+						elements_instanced[j]=true;
+					} else if (elements_instanced[j]==false) {
+						tree_elements[j] = new TreeNode(values[j], colors[j], newdepth);
+						elements_instanced[j]=true;
 					}
-				TreeNode tn=(TreeNode) tree_elements[i];
-				tn.addChild(tree_elements[j]);
+					TreeNode tn = (TreeNode) tree_elements[i];
+					tn.addChild(tree_elements[j]);
+				}}
+				} 
+			int wip_nodes=0;
+			for (boolean b : elements_instanced) {
+				if(!b)wip_nodes++;
 			}
+			elements_not_instanced=wip_nodes>0;
 		}
 		
-		/*
-		int[][] relations=new int[nodes-1][2];
-		
-		for (int i = 0; i < nodes-1; i++) {
-			relations[i][0]=scan.nextInt();
-			relations[i][1]=scan.nextInt();
-		}
-		for (int i = 1; i < nodes; i++) {
-			boolean leaf=true;
-			for (int j = 0; j < nodes-1; j++) {
-				if(relations[j][0]==i+1)leaf=false;
-			}
-			int parent_index=relations[i-1][0]-1;
-			if(leaf) {
-				tree_elements[i]=new TreeLeaf(values[i], colors[i], tree_elements[parent_index].getDepth()+1);
-				TreeNode p=(TreeNode) tree_elements[parent_index];
-				p.addChild(tree_elements[i]);
-			}else {
-				tree_elements[i]=new TreeNode(values[i], colors[i], tree_elements[parent_index].getDepth()+1);
-				TreeNode p=(TreeNode) tree_elements[parent_index];
-				p.addChild(tree_elements[i]);
-			}
-		}*/
 		
 		scan.close();
 		

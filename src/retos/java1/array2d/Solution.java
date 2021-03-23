@@ -52,7 +52,7 @@ public class Solution {
 	 * careful with arguments, in 6x6 matrix the maximum x and y is 3
 	 */
 	private static int sumHourglass(int x, int y, int[][] arr) throws ArrayIndexOutOfBoundsException {
-		int sum = arr[x][y] + arr[x][y+1] + arr[x][y+2] + arr[x + 1][y + 1] + arr[x+2][y] + arr[x + 2][y + 1]
+		int sum = arr[x][y] + arr[x][y + 1] + arr[x][y + 2] + arr[x + 1][y + 1] + arr[x + 2][y] + arr[x + 2][y + 1]
 				+ arr[x + 2][y + 2];
 		return sum;
 	}
