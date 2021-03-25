@@ -1,4 +1,4 @@
-package retos.java1.visitorpattern;
+package retos.java1.oldvisitorpattern;
 
 import java.io.*;
 import java.util.*;
@@ -9,6 +9,7 @@ import java.util.ArrayList;
 import java.util.Scanner;
 
 /*https://www.hackerrank.com/challenges/java-vistor-pattern/problem
+ *Not valid solution since it cause timeout for exceed the hackerrank time limits
  *WARNING: for code reuse, with this design the visitor instances can be used
  *only one time with the conditions of challenge (visit the root and getResult) 
  * */
