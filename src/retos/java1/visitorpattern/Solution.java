@@ -159,33 +159,31 @@ class FancyVisitor extends TreeVis {
 
 public class Solution {
 
+	static int values[];
+	static Color colors[];
+	static HashMap<Integer, HashSet<Integer>> relations;
+	
 	public static Tree solve() {
 		Scanner scan = new Scanner(System.in);
 		// Scan number of nodes of the tree
 		int nodes = scan.nextInt();
 
 		// Create an array to store the value of every node
-		int values[] = new int[nodes];
+		values = new int[nodes];
 		for (int i = 0; i < nodes; i++) {
 			values[i] = scan.nextInt();
 		}
 
 		// Create an array to store the color of every node
-		Color colors[] = new Color[nodes];
+		colors = new Color[nodes];
 		for (int i = 0; i < nodes; i++) {
 			colors[i] = scan.nextInt() == 0 ? Color.RED : Color.GREEN;
 		}
 
-		// Create an empty array to store the nodes
-		Tree tree_elements[] = new Tree[nodes];
-
-		// Instance the root node, with its value, color and depth 0
-		tree_elements[0] = new TreeNode(values[0], colors[0], 0);
-
 		// Create an structure to store the relation parent-child of the nodes
-		HashMap<Integer, ArrayList<Integer>> relations = new HashMap<Integer, ArrayList<Integer>>(nodes);
+		relations = new HashMap<Integer, HashSet<Integer>>(nodes);
 		for (int i = 0; i < nodes; i++) {
-			relations.put(i, new ArrayList<Integer>());
+			relations.put(i, new HashSet<Integer>());
 		}
 
 		// Fill with relations, so the ArrayList of the parent node contain the index of
@@ -198,48 +196,28 @@ public class Solution {
 			relations.get(parent).add(child);
 		}
 
-		//Account which nodes are instanced
-		boolean elements_instanced[] = new boolean[nodes];
-		for (int i = 0; i < nodes; i++) {
-			elements_instanced[i] = false;
-		}
-		elements_instanced[0] = true;
-		boolean elements_not_instanced = true;
-
-		while (elements_not_instanced) {
-			// Create the instances of the tree, if it doesn't have any child it will be a
-			// leaf, if it have it will be a normal node
-			for (int i = 0; i < nodes; i++) {
-				if (elements_instanced[i]) {
-					int newdepth = tree_elements[i].getDepth() + 1;
-					for (Integer j : relations.get(i)) {
-						if (relations.get(j).size() == 0 && elements_instanced[j] == false) {
-							tree_elements[j] = new TreeLeaf(values[j], colors[j], newdepth);
-							elements_instanced[j] = true;
-							TreeNode tn = (TreeNode) tree_elements[i];
-							tn.addChild(tree_elements[j]);
-						} else if (elements_instanced[j] == false) {
-							tree_elements[j] = new TreeNode(values[j], colors[j], newdepth);
-							elements_instanced[j] = true;
-							TreeNode tn = (TreeNode) tree_elements[i];
-							tn.addChild(tree_elements[j]);
-						}
-
-					}
-				}
-			}
-			int wip_nodes = 0;
-			for (boolean b : elements_instanced) {
-				if (!b)
-					wip_nodes++;
-			}
-			elements_not_instanced = wip_nodes > 0;
-		}
-
 		scan.close();
 
-		return tree_elements[0];
+		return buildTree(0, 0);
 
+	}
+	
+	public static Tree buildTree(int id, int depth) {
+		//Method for recursive instance of the Tree
+		
+		Tree tree=null;
+		if(relations.get(id).isEmpty()) {
+			tree= new TreeLeaf(values[id], colors[id], depth);
+		}else {
+			TreeNode node= new TreeNode(values[id], colors[id], depth);
+			HashSet<Integer> childs=relations.get(id);
+			for (Integer childId : childs) {
+				Tree child=buildTree(childId, depth+1);
+				node.addChild(child);
+			}
+			tree=node;
+		}
+		return tree;
 	}
 
 	public static void main(String[] args) {

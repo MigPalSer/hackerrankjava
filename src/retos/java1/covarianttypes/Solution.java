@@ -1,30 +1,69 @@
 package retos.java1.covarianttypes;
 
-import java.util.*;
+import java.io.BufferedReader;
+import java.io.IOException;
+import java.io.InputStreamReader;
 
-/*https://www.hackerrank.com/challenges/java-1d-array-introduction/problem
-*INPUT: The first line contains a single integer denoting the size of the array.
-Each line of the subsequent lines contains a single integer denoting the value of
-an element.
-*OUTPUT: Prints each sequential element on a new line.
+/*https://www.hackerrank.com/challenges/java-covariance/problem
+*TASK: Complete the proposed structure of classes and subclasses.
 */
+
+class Flower {
+	public String whatsYourName() {
+		return "I have many names and types";
+	}
+}
+
+class Jasmine extends Flower {
+
+	@Override
+	public String whatsYourName() {
+		return "Jasmine";
+	}
+
+}
+
+class Lily extends Flower {
+	@Override
+	public String whatsYourName() {
+		return "Lily";
+	}
+}
+
+class Region {
+	Flower yourNationalFlower() {
+		return new Flower();
+	}
+}
+
+class WestBengal extends Region {
+	@Override
+	Jasmine yourNationalFlower() {
+		return new Jasmine();
+	}
+}
+
+class AndhraPradesh extends Region {
+	@Override
+	Lily yourNationalFlower() {
+		return new Lily();
+	}
+}
+
 public class Solution {
-
-	public static void main(String[] args) {
-
-		Scanner scan = new Scanner(System.in);
-		int n = scan.nextInt();
-
-		int[] a = new int[n];
-		for (int i = 0; i < n; i++) {
-			a[i] = scan.nextInt();
+	public static void main(String[] args) throws IOException {
+		BufferedReader reader = new BufferedReader(new InputStreamReader(System.in));
+		String s = reader.readLine().trim();
+		Region region = null;
+		switch (s) {
+		case "WestBengal":
+			region = new WestBengal();
+			break;
+		case "AndhraPradesh":
+			region = new AndhraPradesh();
+			break;
 		}
-
-		scan.close();
-
-		// Prints each sequential element in array a
-		for (int i = 0; i < a.length; i++) {
-			System.out.println(a[i]);
-		}
+		Flower flower = region.yourNationalFlower();
+		System.out.println(flower.whatsYourName());
 	}
 }
