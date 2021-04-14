@@ -5,12 +5,15 @@ import java.util.*;
 import java.text.*;
 import java.math.*;
 import java.util.regex.*;
+
+
+
 import java.util.ArrayList;
 import java.util.Scanner;
 
 /*https://www.hackerrank.com/challenges/java-vistor-pattern/problem
- *WARNING: for code reuse, with this design the visitor instances can be used
- *only one time with the conditions of challenge (visit the root and getResult) 
+ *Very traumatic challenge, the horrible explain and examples don't make you
+ *to figure the undirectional edges between nodes. Worst hackerrank challenge.
  * */
 
 enum Color {
@@ -107,28 +110,24 @@ class SumInLeavesVisitor extends TreeVis {
 
 class ProductOfRedNodesVisitor extends TreeVis {
 
-	int result;
+		long result = 1;
+	    int modulo = 1000000007;
 
-	public ProductOfRedNodesVisitor() {
-		result = 1;
-	}
+	    public int getResult() {
+	        return (int) result;
+	    }
 
-	public int getResult() {
-		result %= (Math.pow(10, 9) + 7);
-		return result;
-	}
+	    public void visitNode(TreeNode node) {
+	        if (node.getColor() == Color.RED) {
+	            result = (result * node.getValue()) % modulo;
+	        }
+	    }
 
-	public void visitNode(TreeNode node) {
-		if (node.getColor() == Color.RED) {
-			result *= node.getValue();
-		}
-	}
-
-	public void visitLeaf(TreeLeaf leaf) {
-		if (leaf.getColor() == Color.RED) {
-			result *= leaf.getValue();
-		}
-	}
+	    public void visitLeaf(TreeLeaf leaf) {
+	        if (leaf.getColor() == Color.RED) {
+	            result = (result * leaf.getValue()) % modulo;
+	        }
+	    }
 }
 
 class FancyVisitor extends TreeVis {
@@ -194,6 +193,8 @@ public class Solution {
 			Integer parent = scan.nextInt() - 1;
 			Integer child = scan.nextInt() - 1;
 			relations.get(parent).add(child);
+			//Since the nodes are not directional, we duplicate the relations
+			relations.get(child).add(parent);
 		}
 
 		scan.close();
@@ -212,6 +213,7 @@ public class Solution {
 			TreeNode node= new TreeNode(values[id], colors[id], depth);
 			HashSet<Integer> childs=relations.get(id);
 			for (Integer childId : childs) {
+				relations.get(childId).remove(id);
 				Tree child=buildTree(childId, depth+1);
 				node.addChild(child);
 			}
@@ -233,9 +235,9 @@ public class Solution {
 		int res1 = vis1.getResult();
 		int res2 = vis2.getResult();
 		int res3 = vis3.getResult();
-
 		System.out.println(res1);
 		System.out.println(res2);
 		System.out.println(res3);
+		
 	}
 }
