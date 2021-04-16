@@ -6,8 +6,6 @@ import java.text.*;
 import java.math.*;
 import java.util.regex.*;
 
-
-
 import java.util.ArrayList;
 import java.util.Scanner;
 
@@ -110,24 +108,24 @@ class SumInLeavesVisitor extends TreeVis {
 
 class ProductOfRedNodesVisitor extends TreeVis {
 
-		long result = 1;
-	    int modulo = 1000000007;
+	long result = 1;
+	int modulo = 1000000007;
 
-	    public int getResult() {
-	        return (int) result;
-	    }
+	public int getResult() {
+		return (int) result;
+	}
 
-	    public void visitNode(TreeNode node) {
-	        if (node.getColor() == Color.RED) {
-	            result = (result * node.getValue()) % modulo;
-	        }
-	    }
+	public void visitNode(TreeNode node) {
+		if (node.getColor() == Color.RED) {
+			result = (result * node.getValue()) % modulo;
+		}
+	}
 
-	    public void visitLeaf(TreeLeaf leaf) {
-	        if (leaf.getColor() == Color.RED) {
-	            result = (result * leaf.getValue()) % modulo;
-	        }
-	    }
+	public void visitLeaf(TreeLeaf leaf) {
+		if (leaf.getColor() == Color.RED) {
+			result = (result * leaf.getValue()) % modulo;
+		}
+	}
 }
 
 class FancyVisitor extends TreeVis {
@@ -161,7 +159,7 @@ public class Solution {
 	static int values[];
 	static Color colors[];
 	static HashMap<Integer, HashSet<Integer>> relations;
-	
+
 	public static Tree solve() {
 		Scanner scan = new Scanner(System.in);
 		// Scan number of nodes of the tree
@@ -193,7 +191,7 @@ public class Solution {
 			Integer parent = scan.nextInt() - 1;
 			Integer child = scan.nextInt() - 1;
 			relations.get(parent).add(child);
-			//Since the nodes are not directional, we duplicate the relations
+			// Since the nodes are not directional, we duplicate the relations
 			relations.get(child).add(parent);
 		}
 
@@ -202,22 +200,22 @@ public class Solution {
 		return buildTree(0, 0);
 
 	}
-	
+
 	public static Tree buildTree(int id, int depth) {
-		//Method for recursive instance of the Tree
-		
-		Tree tree=null;
-		if(relations.get(id).isEmpty()) {
-			tree= new TreeLeaf(values[id], colors[id], depth);
-		}else {
-			TreeNode node= new TreeNode(values[id], colors[id], depth);
-			HashSet<Integer> childs=relations.get(id);
+		// Method for recursive instance of the Tree
+
+		Tree tree = null;
+		if (relations.get(id).isEmpty()) {
+			tree = new TreeLeaf(values[id], colors[id], depth);
+		} else {
+			TreeNode node = new TreeNode(values[id], colors[id], depth);
+			HashSet<Integer> childs = relations.get(id);
 			for (Integer childId : childs) {
 				relations.get(childId).remove(id);
-				Tree child=buildTree(childId, depth+1);
+				Tree child = buildTree(childId, depth + 1);
 				node.addChild(child);
 			}
-			tree=node;
+			tree = node;
 		}
 		return tree;
 	}
@@ -238,6 +236,6 @@ public class Solution {
 		System.out.println(res1);
 		System.out.println(res2);
 		System.out.println(res3);
-		
+
 	}
 }

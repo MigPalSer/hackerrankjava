@@ -199,7 +199,7 @@ public class Solution {
 			relations.get(parent).add(child);
 		}
 
-		//Account which nodes are instanced
+		// Account which nodes are instanced
 		boolean elements_instanced[] = new boolean[nodes];
 		for (int i = 0; i < nodes; i++) {
 			elements_instanced[i] = false;
