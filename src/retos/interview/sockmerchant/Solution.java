@@ -8,8 +8,10 @@ import java.util.*;
 import java.util.concurrent.*;
 import java.util.regex.*;
 
-/**/
-
+/*https://www.hackerrank.com/challenges/sock-merchant/
+ *TASK: Given an array of integer (each different integer represents a type of sock)
+ *return how many pairs of same-type socks we can join.  
+ */
 public class Solution {
 
     static int sockMerchant(int n, int[] ar) {
