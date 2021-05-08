@@ -16,6 +16,8 @@ import static java.util.stream.Collectors.toList;
  *for each operation add a value to each the array element between two 
  *given indices, inclusive. Once all operations have been performed, 
  *return the maximum value in the array. 
+ *
+ *WARNING: Problems of timeout
  */
 
 
