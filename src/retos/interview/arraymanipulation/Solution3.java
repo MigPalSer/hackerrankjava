@@ -17,33 +17,39 @@ import static java.util.stream.Collectors.toList;
  *given indices, inclusive. Once all operations have been performed, 
  *return the maximum value in the array. 
  *
- * *WARNING: Problems of timeout
  */
 
 
 
-public class Solution2 {
+public class Solution3 {
     public static void main(String[] args) throws IOException {
-    	Scanner miscan=new Scanner(System.in);
-    	int n = miscan.nextInt();
+        Scanner miscan=new Scanner(System.in);
+        int n = miscan.nextInt();
 
         int m = miscan.nextInt();
 
-        long [] array=new long[n];
-    	for (int i = 0; i < n; i++) {
-			array[i]=0L;
-		}
-    	int initial, end, number;
-    	for (int i = 0; i < m; i++) {
+        long [] array=new long[n+1];
+        for (int i = 0; i <= n; i++) {
+            array[i]=0L;
+        }
+        int initial, end, number;
+        for (int i = 0; i < m; i++) {
             initial=miscan.nextInt()-1;
-            end=miscan.nextInt()-1;
+            end=miscan.nextInt();
             number=miscan.nextInt();
-            for (int j = initial; j <= end; j++) {
-                array[j]+=number;
-            }
+            array[initial]+=number;
+            array[end]-=number;
         }
 
-        long result = Arrays.stream(array).max().getAsLong();
+        
+        
+        long result=0;
+        long actual=0;
+        
+        for (int i = 0; i < array.length; i++) {
+            actual += array[i];
+            if(actual>result)result=actual;
+        }
 
         System.out.println(result);
  

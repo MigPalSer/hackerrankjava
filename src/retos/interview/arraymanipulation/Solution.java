@@ -27,7 +27,7 @@ class Result {
 
     public static long arrayManipulation(int n, List<List<Integer>> queries) {
 
-    	Long [] array=new Long[n];
+    	long [] array=new long[n];
     	for (int i = 0; i < array.length; i++) {
 			array[i]=0L;
 		}
@@ -39,7 +39,8 @@ class Result {
 			}
 		}
     	
-    	return Collections.max(Arrays.asList(array));
+    	return Arrays.stream(array).max().getAsLong();
+    			
     	
     }
 
