@@ -10,18 +10,16 @@ import java.util.regex.*;
 import java.util.stream.Collectors;
 
 /*https://www.hackerrank.com/challenges/minimum-swaps-2/
- *TASK: Return the minimum number of swaps to order an array
- *WARN: Need to solve a time problem for the last testcases */
+ *TASK: Return the minimum number of swaps to order an array */
 
 public class Solution2 {
 
-	// Complete the minimumSwaps function below.
+
 	static int minimumSwaps(int[] arr) {
 
 		int swaps = 0;
 		int temporal;
 		int index=0;
-		// No need to include the last element in the loop
 		while (index!=arr.length) {
 			if (arr[index] != index + 1) {
 				temporal = arr[index];
