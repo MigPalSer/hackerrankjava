@@ -40,12 +40,12 @@ static void displayPathtoPrincess(int n, String [] grid){
 	horizontal=rowm-rowp;
 	
 	svertical=vertical>0?"UP":"DOWN";
-	shorizontal=horizontal>0?"RIGHT":"LEFT";
+	shorizontal=horizontal<0?"RIGHT":"LEFT";
 	
-	for (int i = 0; i < vertical; i++) {
+	for (int i = 0; i < Math.abs(vertical); i++) {
 		System.out.println(svertical);
 	}
-	for (int i = 0; i < horizontal; i++) {
+	for (int i = 0; i < Math.abs(horizontal); i++) {
 		System.out.println(shorizontal);
 	}
   }
