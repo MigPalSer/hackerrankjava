@@ -13,61 +13,53 @@ import static java.util.stream.Collectors.joining;
 import static java.util.stream.Collectors.toList;
 
 /*https://www.hackerrank.com/challenges/count-triplets-1
- *This doesnt work properly. Fail for the edge case of 1 and exceed the time limit of certain test case
  */
 
 public class Solution {
 
-    // Complete the countTriplets function below.
     static long countTriplets(List<Long> arr, long r) {
     	    	
-    	int triplets=0;
+    	long triplets=0;
     	
-    	HashMap<Long, Integer> power_to_exponent=new HashMap<Long, Integer>();
-    	HashMap<Integer, HashSet<Integer>> exponent_to_indices=new HashMap<Integer, HashSet<Integer>>();
-    	HashSet<Long> powerset=new HashSet<Long>();
+    	HashMap<Long, Long> firstmap=new HashMap<Long, Long>();
+    	HashMap<Long, Long> secondmap=new HashMap<Long, Long>();
 
-    	for (int i = 0; i < arr.size(); i++) {
-			long power=(long) Math.pow(r, i); // Will this work properly with long?
-    		power_to_exponent.put(power, i);
-			exponent_to_indices.put(i, new HashSet<Integer>());
-			powerset.add(power);
-		}
-    	
-    	for (int i = 0; i < arr.size(); i++) {
-    		long number=arr.get(i);
-			if(powerset.contains(number)) {
-				exponent_to_indices.get(power_to_exponent.get(number)).add(i);
+    	for (Long n : arr) {
+			long next=n*r;
+			
+			
+			//If the number os searched by the second map, we achieve as many triplets as the stored in secondmap
+			if(secondmap.keySet().contains(n)) {
+				triplets+=secondmap.get(n);
 			}
-		}
-    	
-    	for (int i = 0; i < arr.size()-2; i++) {
-    		HashSet<Integer> first=exponent_to_indices.get(i);
-    		HashSet<Integer> second=exponent_to_indices.get(i+1);
-    		HashSet<Integer> third=exponent_to_indices.get(i+2);
-
-    		for (Integer integer1 : first) {
-    			for (Integer integer2 : second) {
-    				for (Integer integer3 : third) {
-    					if(validTriplet(integer1, integer2, integer3))triplets++;
-    				}
-    			}
+			
+			//If the number is part of the next, we have as many two number combination (in search for next) as the coincidences of the first map. We add that to the second.
+			if(firstmap.keySet().contains(n)) {
+				if(secondmap.keySet().contains(next)) {
+					secondmap.put(next, secondmap.get(next)+firstmap.get(n));
+				}else {
+					secondmap.put(next, firstmap.get(n));
+				}
 			}
-    		
+			//Always we add the next required number for triplet to our first map, with a value of number of coincidences
+			if(firstmap.keySet().contains(next)) {
+				firstmap.put(next, firstmap.get(next)+1L);
+			}else {
+				firstmap.put(next, 1L);
+			}
+			
 		}
     	
     	return triplets;
     }
     
-    static boolean validTriplet(int i, int j, int k) {
-    	return (i<j)&&(j<k);
-    }
-
+  
 
     public static void main(String[] args) throws IOException {
         BufferedReader bufferedReader = new BufferedReader(new InputStreamReader(System.in));
         BufferedWriter bufferedWriter = new BufferedWriter(new FileWriter(System.getenv("OUTPUT_PATH")));
 
+        
         String[] nr = bufferedReader.readLine().replaceAll("\\s+$", "").split(" ");
 
         int n = Integer.parseInt(nr[0]);
@@ -80,6 +72,7 @@ public class Solution {
 
         long ans = countTriplets(arr, r);
 
+        
         bufferedWriter.write(String.valueOf(ans));
         bufferedWriter.newLine();
 
