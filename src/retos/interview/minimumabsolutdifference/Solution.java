@@ -22,12 +22,18 @@ class Result {
 
     	int minimum_difference=Integer.MAX_VALUE;
     	
-    	for (int i = 0; i < arr.size(); i++) {
-			int base=arr.get(i);
-	    	for (int j = i+1; j < arr.size(); j++) {
-	    		int difference=Math.abs(base-arr.get(j));
-	    		if(difference<minimum_difference)minimum_difference=difference;
-		}}
+    	Collections.sort(arr);
+    	
+    	int previous=arr.get(0);
+    	int actual, difference;
+    	
+    	for (int i = 1; i < arr.size(); i++) {
+			actual=arr.get(i);
+			difference=Math.abs(actual-previous);
+			if(difference<minimum_difference)minimum_difference=difference;
+			previous=actual;
+		}
+    	
     	
     	return minimum_difference;
     }
